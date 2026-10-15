@@ -9,6 +9,9 @@
 Material docente de la asignatura **Sistemas Informáticos Industriales** de la **Escuela Técnica Superior de Ingeniería y Diseño Industrial (ETSIDI)** de la **Universidad Politécnica de Madrid (UPM)**.
 
 ---
+## 📖Avances
+
+En este primer avance se ha implementado el movimiento de la pelota y la raqueta, además se ha agregado el .gitignore .
 
 ## 📖 Descripción
 
@@ -42,3 +45,5 @@ Asignatura impartida por el **Departamento de Ingeniería Eléctrica, Electróni
 Este repositorio tiene finalidad exclusivamente docente.
 
 Si detectas algún error o tienes alguna sugerencia de mejora, puedes comunicarlo al profesorado de la asignatura.
+
+Avances hechos por - **Noel Gonzalez**
