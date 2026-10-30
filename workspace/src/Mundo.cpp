@@ -1,6 +1,9 @@
 // Mundo.cpp: implementation of the CMundo class.
 //
 //////////////////////////////////////////////////////////////////////
+#include <sys/types.h>
+#include <sys/stat.h>
+
 #include <fstream>
 #include "Mundo.h"
 #include "glut.h"
@@ -9,6 +12,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+
+#include <unistd.h>
+#include <fcntl.h>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -21,7 +27,7 @@ CMundo::CMundo()
 
 CMundo::~CMundo()
 {
-
+	close(fd);
 }
 
 void CMundo::InitGL()
@@ -119,6 +125,8 @@ void CMundo::OnTimer(int value)
 	jugador2.Mueve(0.025f);
 	esfera.Mueve(0.025f);
 	int i;
+	char buffer[1024];
+
 	for(i=0;i<paredes.size();i++)
 	{
 		paredes[i].Rebota(esfera);
@@ -128,6 +136,7 @@ void CMundo::OnTimer(int value)
 
 	jugador1.Rebota(esfera);
 	jugador2.Rebota(esfera);
+
 	if(fondo_izq.Rebota(esfera))
 	{
 		esfera.centro.x=0;
@@ -135,6 +144,9 @@ void CMundo::OnTimer(int value)
 		esfera.velocidad.x=2+2*rand()/(float)RAND_MAX;
 		esfera.velocidad.y=2+2*rand()/(float)RAND_MAX;
 		puntos2++;
+
+		sprintf(buffer, "Jugador 2 marca 1 punto, lleva un total de %d puntos.", puntos2);
+		write(fd, buffer, sizeof(buffer));
 	}
 
 	if(fondo_dcho.Rebota(esfera))
@@ -144,8 +156,23 @@ void CMundo::OnTimer(int value)
 		esfera.velocidad.x=-2-2*rand()/(float)RAND_MAX;
 		esfera.velocidad.y=-2-2*rand()/(float)RAND_MAX;
 		puntos1++;
+
+		sprintf(buffer, "Jugador 1 marca 1 punto, lleva un total de %d puntos.", puntos1);
+		write(fd, buffer, sizeof(buffer));
 	}
 
+	if(puntos2 > 2)
+	{
+		sprintf(buffer, "Gana el Jugador 2");
+		write(fd, buffer, sizeof(buffer));
+		exit(0);
+	}
+	else if(puntos1 > 2)
+	{
+		sprintf(buffer, "Gana el Jugador 1");
+		write(fd, buffer, sizeof(buffer));
+		exit(0);
+	}
 }
 
 void CMundo::OnKeyboardDown(unsigned char key, int x, int y)
@@ -192,4 +219,9 @@ void CMundo::Init()
 	jugador2.g=0;
 	jugador2.x1=6;jugador2.y1=-1;
 	jugador2.x2=6;jugador2.y2=1;
+
+	/* Abre el FIFO */
+	if ((fd=open("canal", O_WRONLY))<0) {
+		perror("No puede abrirse el FIFO");
+	}
 }
