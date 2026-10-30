@@ -11,7 +11,9 @@ Material docente de la asignatura **Sistemas Informáticos Industriales** de la 
 ---
 ## 📖Avances
 
-En este primer avance se ha implementado el movimiento de la pelota y la raqueta, además se ha agregado el .gitignore .
+En este primer avance se ha implementado el movimiento de la pelota y la raqueta, además se ha agregado el .gitignore.
+
+En la práctica 2 se ha agregado la condición de fin de partida y la comunicación entre dos procesos para imprimer por la terminal los puntajes de ambos jugadores.
 
 ## 📖 Descripción
 
