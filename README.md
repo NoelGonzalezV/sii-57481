@@ -15,6 +15,8 @@ En este primer avance se ha implementado el movimiento de la pelota y la raqueta
 
 En la práctica 2 se ha agregado la condición de fin de partida y la comunicación entre dos procesos para imprimer por la terminal los puntajes de ambos jugadores.
 
+En la práctica 3 se ha agregado un bot que juega como si fuese el jugador 2, para ello se utilizó la ficheros proyectados en memoria.
+
 ## 📖 Descripción
 
 Este repositorio contiene el material utilizado en las prácticas de la asignatura **Sistemas Informáticos Industriales**, incluyendo los guiones y el código de inicio.

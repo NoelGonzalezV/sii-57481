@@ -1,6 +1,7 @@
 // Mundo.cpp: implementation of the CMundo class.
 //
 //////////////////////////////////////////////////////////////////////
+#include <sys/mman.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -28,6 +29,7 @@ CMundo::CMundo()
 CMundo::~CMundo()
 {
 	close(fd);
+	dat->fin_juego = 1;
 }
 
 void CMundo::InitGL()
@@ -173,6 +175,17 @@ void CMundo::OnTimer(int value)
 		write(fd, buffer, sizeof(buffer));
 		exit(0);
 	}
+	
+	dat->raqueta1 = jugador2;
+	dat->esfera = esfera;
+	
+	switch(dat->accion)
+	{
+	case -1: OnKeyboardDown('l', 0, 0);
+		 break;
+	case  1: OnKeyboardDown('o', 0, 0);
+		 break;
+	}
 }
 
 void CMundo::OnKeyboardDown(unsigned char key, int x, int y)
@@ -224,4 +237,16 @@ void CMundo::Init()
 	if ((fd=open("canal", O_WRONLY))<0) {
 		perror("No puede abrirse el FIFO");
 	}
+
+	int fd2;
+	char *direccion_bot;
+	
+	fd2 = open("datos", O_RDWR|O_CREAT|O_TRUNC, 0666);
+	ftruncate(fd2, sizeof(DatosMemCompartida));
+
+	direccion_bot  = static_cast<char*>(mmap(NULL, sizeof(DatosMemCompartida), PROT_READ | PROT_WRITE, MAP_SHARED, fd2, 0));
+
+	close(fd2);
+	
+	dat = (DatosMemCompartida*)direccion_bot;
 }
